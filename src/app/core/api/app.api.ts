@@ -6,7 +6,7 @@ import { EchoesState } from '@store/reducers';
 import * as AppCore from '@store/app-core';
 import * as RouterActions from '@store/router-store';
 import * as UserActions from '@store/user-profile';
-import * as PlayerSearchActions from '@store/player-search';
+import * as fromPlayerSearch from '@store/player-search';
 
 @Injectable()
 export class AppApi {
@@ -17,7 +17,7 @@ export class AppApi {
   usersPlaylists$ = this.store.pipe(select(UserActions.selectUsersPlaylists));
   mediaToPlaylist$ = this.store.pipe(select(AppCore.selectMediaToPlaylist));
 
-  constructor(private store: Store<EchoesState>) { }
+  constructor(private store: Store<EchoesState>, private playerSearchActions: fromPlayerSearch.PlayerSearchActions) { }
 
   toggleSidebar() {
     this.store.dispatch(new AppCore.ToggleSidebar());
@@ -74,6 +74,6 @@ export class AppApi {
   }
 
   searchMore() {
-    this.store.dispatch(new PlayerSearchActions.searchMoreForQuery());
+    this.store.dispatch(this.playerSearchActions.searchMoreForQuery());
   }
 }

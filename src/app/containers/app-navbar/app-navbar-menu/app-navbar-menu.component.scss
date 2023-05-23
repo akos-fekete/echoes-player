@@ -69,12 +69,12 @@
 }
 
 .list-group-item.theme-selector {
-  /deep/ .btn.active {
+  :host ::ng-deep .btn.active {
     background-color: var(--brand-primary);
     color: var(--brand-inverse-text);
     border: 1px solide var(--brand-primary);
   }
-  /deep/ .btn {
+  :host ::ng-deep .btn {
     background-color: transparent;
     color: var(--brand-primary);
 
