@@ -34,6 +34,12 @@ interface TSearchType {
 export class SearchNavigatorComponent implements OnInit {
   searchTypes: TSearchType[] = [
     {
+      label: 'Memes',
+      link: `/search/videos`,
+      params: { filter: CPresetTypes.MEMES },
+      type: CSearchTypes.VIDEO
+    },
+    {
       label: 'Videos',
       link: `/search/videos`,
       params: { filter: '' },

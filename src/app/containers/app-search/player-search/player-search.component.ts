@@ -17,7 +17,8 @@ import { IQueryParams } from '@core/store/player-search';
 
 const defaultSearchParams = {
   hd: false,
-  duration: false
+  duration: false,
+  type: false,
 };
 
 @Component({
@@ -42,8 +43,12 @@ const defaultSearchParams = {
       </button>
     </form>
       <button class="btn btn-filter btn-transparent is-flex-row is-flex-valign">
-        <icon name="filter" [ngClass]="{'text-primary': filtersForm.value.duration || filtersForm.value.hd }"></icon>
+        <icon name="filter" [ngClass]="{'text-primary': filtersForm.value.duration || filtersForm.value.hd || filtersForm.value.episode }"></icon>
         <form class="filters is-rounded" [formGroup]="filtersForm">
+        <div class="filter">
+            <input id="episode" type="checkbox" class="form-control" formControlName="type">
+            <label for="episode" class="filter-label">episode</label>
+          </div>
           <div class="filter">
             <input id="long" type="checkbox" class="form-control" formControlName="duration">
             <label for="long" class="filter-label">long</label>
@@ -52,7 +57,7 @@ const defaultSearchParams = {
             <input id="hd" type="checkbox" class="form-control" formControlName="hd">
             <label for="hd" class="filter-label">HD</label>
           </div>
-          <icon name="trash" *ngIf="filtersForm.value.duration || filtersForm.value.hd" (click)="clearFilters()"></icon>
+          <icon name="trash" *ngIf="filtersForm.value.duration || filtersForm.value.hd || filtersForm.value.episode " (click)="clearFilters()"></icon>
         </form>
       </button>
       `,
@@ -109,10 +114,11 @@ export class PlayerSearchComponent implements OnChanges, OnDestroy {
     }
 
     if (searchParams && searchParams.currentValue) {
-      const { videoDuration, videoDefinition } = searchParams.currentValue;
+      const { videoDuration, videoDefinition, videoTypes } = searchParams.currentValue;
       const values = {
         duration: videoDuration === 'long',
-        hd: videoDefinition === 'high'
+        hd: videoDefinition === 'high',
+        episode: videoTypes === 'episode'
       };
       this.patchFormGroup(this.filtersForm, values);
     }
@@ -151,4 +157,5 @@ export class PlayerSearchComponent implements OnChanges, OnDestroy {
 export interface ISearchFormParams {
   duration: boolean;
   hd: boolean;
+  type: boolean;
 }

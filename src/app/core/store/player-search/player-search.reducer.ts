@@ -68,10 +68,11 @@ export function search(
     }
 
     case ActionTypes.UPDATE_QUERY_FILTER: {
-      const { duration, hd } = payload;
+      const { duration, hd, type } = payload;
       const newParams = {
         videoDuration: duration ? 'long' : 'any',
-        videoDefinition: hd ? 'high' : 'any'
+        videoDefinition: hd ? 'high' : 'any',
+        videoType: type ? 'episode' : 'any'
       };
       const queryParamsNew = { ...state.queryParams, ...newParams };
       return { ...state, queryParamsNew };

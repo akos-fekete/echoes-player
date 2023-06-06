@@ -39,4 +39,5 @@ export class CSearchTypes {
 export class CPresetTypes {
   static FULL_ALBUMS = 'full albums';
   static LIVE = 'live';
+  static MEMES = 'memes';
 }
