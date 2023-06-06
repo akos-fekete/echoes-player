@@ -76,4 +76,6 @@ export class AppApi {
   searchMore() {
     this.store.dispatch(this.playerSearchActions.searchMoreForQuery());
   }
+
+
 }

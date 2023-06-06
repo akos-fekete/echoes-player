@@ -66,6 +66,12 @@
             <icon name="reply" title="Queue this video to now playlist"></icon>
           </button>
           <button
+            *ngIf="!queued"
+            class="btn btn-transparent text-info first-action"
+            (click)="queueVideoTop(media)">
+            <icon name="upload" title="Queue this video to the top of now playlist"></icon>
+          </button>
+          <button
             *ngIf="queued"
             class="btn btn-transparent text-danger no-padding"
             (click)="removeVideoFromQueue(media)">

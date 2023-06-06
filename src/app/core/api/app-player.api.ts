@@ -16,7 +16,7 @@ export class AppPlayerApi {
     private store: Store<EchoesState>,
     private nowPlaylistEffects: NowPlaylistEffects,
     private youtubePlayerService: YoutubePlayerService
-  ) {}
+  ) { }
 
   playPlaylist(playlist: GoogleApiYouTubePlaylistResource) {
     this.nowPlaylistEffects.playPlaylistFirstTrack$
@@ -39,6 +39,10 @@ export class AppPlayerApi {
   queueVideo(media: GoogleApiYouTubeVideoResource) {
     this.store.dispatch(new fromNowPlaylist.QueueVideo(media));
   }
+  queueVideoTop(media: GoogleApiYouTubeVideoResource) {
+    this.store.dispatch(new fromNowPlaylist.QueueVideoTop(media));
+  }
+
 
   removeVideoFromPlaylist(media: GoogleApiYouTubeVideoResource) {
     this.store.dispatch(new fromNowPlaylist.RemoveVideo(media));

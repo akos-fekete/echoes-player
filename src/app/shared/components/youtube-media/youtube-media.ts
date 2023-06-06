@@ -18,6 +18,7 @@ export class YoutubeMediaComponent {
   @Input() queued = false;
   @Output() play = new EventEmitter<GoogleApiYouTubeVideoResource>();
   @Output() queue = new EventEmitter<GoogleApiYouTubeVideoResource>();
+  @Output() queueTop = new EventEmitter<GoogleApiYouTubeVideoResource>();
   @Output() add = new EventEmitter<GoogleApiYouTubeVideoResource>();
   @Output() unqueue = new EventEmitter<GoogleApiYouTubeVideoResource>();
 
@@ -33,6 +34,9 @@ export class YoutubeMediaComponent {
 
   queueVideo(media: GoogleApiYouTubeVideoResource) {
     this.queue.emit(media);
+  }
+  queueVideoTop(media: GoogleApiYouTubeVideoResource) {
+    this.queueTop.emit(media);
   }
 
   addVideoToPlaylist(media: GoogleApiYouTubeVideoResource) {

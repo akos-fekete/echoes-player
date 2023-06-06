@@ -28,6 +28,10 @@ export function nowPlaylist(
     case fromActions.ActionTypes.QUEUE:
       return { ...state, videos: addMedia(state.videos, action.payload) };
 
+    case fromActions.ActionTypes.QUEUETOP:
+      return { ...state, videos: addMediaToTop(state.videos, action.payload) };
+
+
     case fromActions.ActionTypes.QUEUE_VIDEOS:
       return { ...state, videos: addMedias(state.videos, action.payload) };
 
@@ -101,6 +105,15 @@ function addMedia(videos: GoogleApiYouTubeVideoResource[], media: any) {
     newMedias.push(media);
   }
   return [...videos, ...newMedias];
+}
+
+function addMediaToTop(videos: GoogleApiYouTubeVideoResource[], media: any) {
+  const newMedia = videos.findIndex(video => video.id === media.id);
+  const newMedias = [];
+  if (newMedia === -1) {
+    newMedias.unshift(media);
+  }
+  return [...newMedias, ...videos];
 }
 
 function addMedias(videos, medias) {

@@ -17,7 +17,7 @@ export class NowPlaylistEffects {
     private mediaParser: MediaParserService,
     private playerService: YoutubePlayerService,
     private userProfile: UserProfile
-  ) {}
+  ) { }
 
   @Effect()
   queueVideo$ = this.actions$.pipe(
@@ -26,6 +26,16 @@ export class NowPlaylistEffects {
     map(
       (media: GoogleApiYouTubeVideoResource) =>
         new fromNowPlaylist.QueueVideo(media)
+    )
+  );
+
+  @Effect()
+  queueVideoTop$ = this.actions$.pipe(
+    ofType(fromNowPlaylist.ActionTypes.SELECT),
+    map(toPayload),
+    map(
+      (media: GoogleApiYouTubeVideoResource) =>
+        new fromNowPlaylist.QueueVideoTop(media)
     )
   );
 

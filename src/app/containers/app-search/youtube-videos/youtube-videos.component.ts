@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { EchoesState } from '@core/store';
 
+
 // actions
 import * as fromPlayerSearch from '@core/store/player-search';
 import { AppPlayerApi } from '@core/api/app-player.api';
@@ -9,6 +10,8 @@ import { AppPlayerApi } from '@core/api/app-player.api';
 // selectors
 import * as NowPlaylist from '@core/store/now-playlist';
 import { AppApi } from '../../../core/api/app.api';
+import { NowPlaylistService } from '../../../core/services';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'youtube-videos',
@@ -20,10 +23,12 @@ import { AppApi } from '../../../core/api/app.api';
       [queued]="playlistIds$ | async"
       (play)="playSelectedVideo($event)"
       (queue)="queueSelectedVideo($event)"
+      (queueTop)="queueSelectedVideoTop($event)"
       (unqueue)="removeVideoFromPlaylist($event)"
       (add)="addMediaToPlaylist($event)"
     ></youtube-list>
     <button class="btn btn-primary load-more-btn" (click)="searchMore()">load more results...</button>
+    <button class="btn btn-primary load-more-btn" (click)="intoQue()">load into queue</button>
   `
 })
 export class YoutubeVideosComponent implements OnInit {
@@ -32,6 +37,7 @@ export class YoutubeVideosComponent implements OnInit {
   loading$ = this.store.select(fromPlayerSearch.getIsSearching);
 
   constructor(
+    private nowPlaylistService: NowPlaylistService,
     private store: Store<EchoesState>,
     private appPlayerApi: AppPlayerApi,
     private appApi: AppApi,
@@ -51,6 +57,9 @@ export class YoutubeVideosComponent implements OnInit {
   queueSelectedVideo(media: GoogleApiYouTubeVideoResource) {
     this.appPlayerApi.queueVideo(media);
   }
+  queueSelectedVideoTop(media: GoogleApiYouTubeVideoResource) {
+    this.appPlayerApi.queueVideoTop(media);
+  }
 
   removeVideoFromPlaylist(media: GoogleApiYouTubeVideoResource) {
     this.appPlayerApi.removeVideoFromPlaylist(media);
@@ -62,6 +71,15 @@ export class YoutubeVideosComponent implements OnInit {
 
   searchMore() {
     this.appApi.searchMore();
+  }
+
+  intoQue() {
+    let playlist: GoogleApiYouTubeVideoResource[];
+    this.videos$.pipe(first()).subscribe(next => {
+      this.nowPlaylistService.queueVideos(next)
+    }
+    )
+
   }
 
 }

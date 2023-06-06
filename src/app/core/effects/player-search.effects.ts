@@ -23,6 +23,7 @@ import {
   RouterNavigationAction,
   RouterNavigationPayload
 } from '@ngrx/router-store';
+import { debug } from 'console';
 
 @Injectable()
 export class PlayerSearchEffects {

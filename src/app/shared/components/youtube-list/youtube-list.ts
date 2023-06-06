@@ -28,6 +28,7 @@ function createIdMap(list: GoogleApiYouTubeVideoResource[]) {
         [queued]="media | isInQueue:queued"
         (play)="playSelectedVideo(media)"
         (queue)="queueSelectedVideo(media)"
+        (queueTop)="queueSelectedVideoTop(media)"
         (unqueue)="unqueueSelectedVideo(media)"
         (add)="addVideo(media)">
       </youtube-media>
@@ -41,12 +42,13 @@ export class YoutubeListComponent implements OnChanges {
   @Input() queued: string[] = [];
   @Output() play = new EventEmitter();
   @Output() queue = new EventEmitter();
+  @Output() queueTop = new EventEmitter();
   @Output() add = new EventEmitter();
   @Output() unqueue = new EventEmitter();
 
   queuedMediaIdMap = {};
 
-  constructor() {}
+  constructor() { }
 
   ngOnChanges({ queued }: SimpleChanges) {
     // if (queued && queued.currentValue) {
@@ -61,6 +63,10 @@ export class YoutubeListComponent implements OnChanges {
 
   queueSelectedVideo(media) {
     this.queue.emit(media);
+  }
+
+  queueSelectedVideoTop(media) {
+    this.queueTop.emit(media);
   }
 
   addVideo(media) {
