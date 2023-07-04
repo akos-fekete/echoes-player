@@ -23,7 +23,8 @@ export enum ActionTypes {
   ADD_RESULTS = '[PlayerSearch] ADD_RESULTS',
   RESET_RESULTS = '[PlayerSearch] RESET_RESULTS',
   ERROR_RESULTS = '[PlayerSearch] ERROR_RESULTS',
-  UPDATE_QUERY_FILTER = '[PlayerSearch] UPDATE_QUERY_FILTER'
+  UPDATE_QUERY_FILTER = '[PlayerSearch] UPDATE_QUERY_FILTER',
+  SET_MAX_API_RESULTS = '[PlayerSearch] SET_MAX_API_RESULTS',
 }
 @Injectable()
 export class PlayerSearchActions {
@@ -37,6 +38,7 @@ export class PlayerSearchActions {
   static SEARCH_CURRENT_QUERY = '[PlayerSearch] SEARCH_CURRENT_QUERY';
   static SEARCH_STARTED = '[PlayerSearch] SEARCH_STARTED';
   static SEARCH_TYPE_UPDATE = '[PlayerSearch] SEARCH_TYPE_UPDATE';
+  static SET_MAX_API_RESULTS = '[PlayerSearch] SET_MAX_API_RESULTS';
   static ADD_PLAYLISTS_TO_RESULTS = {
     action: '[PlayerSearch] ADD_PLAYLISTS_TO_RESULTS',
     creator: payload => ({
@@ -94,27 +96,31 @@ export class PlayerSearchActions {
 
 export class UpdateQueryAction {
   public type = PlayerSearchActions.UPDATE_QUERY;
-  constructor(public payload: string) {}
+  constructor(public payload: string) { }
 }
 
 export class UpdateSearchType {
   public type = PlayerSearchActions.SEARCH_TYPE_UPDATE;
-  constructor(public payload: string) {}
+  constructor(public payload: string) { }
 }
 
 export class SearchCurrentQuery {
   public type = PlayerSearchActions.SEARCH_CURRENT_QUERY;
-  constructor() {}
+  constructor() { }
 }
 
 export class UpdateQueryFilter {
   public type = ActionTypes.UPDATE_QUERY_FILTER;
-  constructor(public payload: { [key: string]: any }) {}
+  constructor(public payload: { [key: string]: any }) { }
 }
 // export class AddResults implements Action {
 //   readonly type = PlayerSearchActions.ADD_RESULTS;
 //   constructor(public payload: GoogleApiYouTubeVideoResource[]) { }
 // }
+export class SetMaxApiResults implements Action {
+  public type = ActionTypes.SET_MAX_API_RESULTS;
+  constructor(public payload: number) { }
+}
 
 export const AddResultsAction = {
   type: PlayerSearchActions.ADD_RESULTS,

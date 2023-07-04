@@ -27,14 +27,17 @@ import { first } from 'rxjs/operators';
       (unqueue)="removeVideoFromPlaylist($event)"
       (add)="addMediaToPlaylist($event)"
     ></youtube-list>
-    <button class="btn btn-primary load-more-btn" (click)="searchMore()">load more results...</button>
-    <button class="btn btn-primary load-more-btn" (click)="intoQue()">load into queue</button>
+    <button class="btn btn-primary load-more-btn" (click)="searchMore()">Load more results...</button>
+    <button class="btn btn-primary load-more-btn" (click)="intoQue()">Load into queue...</button>
+    <input type="number" id="maxApiResults" [(ngModel)]="maxApiResults">
+    <button class="btn btn-primary load-more-btn" (click)="setMaxApiResults()">Confirm max api results</button>
   `
 })
 export class YoutubeVideosComponent implements OnInit {
   videos$ = this.store.select(fromPlayerSearch.getPlayerSearchResults);
   playlistIds$ = this.store.select(NowPlaylist.getPlaylistMediaIds);
   loading$ = this.store.select(fromPlayerSearch.getIsSearching);
+  maxApiResults: number;
 
   constructor(
     private nowPlaylistService: NowPlaylistService,
@@ -79,6 +82,11 @@ export class YoutubeVideosComponent implements OnInit {
       this.nowPlaylistService.queueVideos(next)
     }
     )
+
+  }
+
+  setMaxApiResults() {
+    this.appApi.setApiSearchMax(Number(this.maxApiResults));
 
   }
 

@@ -54,7 +54,7 @@ export class YoutubeDataApi {
   constructor(private http: HttpClient, private auth: Authorization) {
   }
 
-  list(api: string, options) {
+  list(api: string, options) { //total api results benne van a paramsban
     const params = { ..._defaultUrlParams, ...options };
     const _options = {
       params,

@@ -1,7 +1,10 @@
+import { videoTypes } from './../store/player-search/player-search.interfaces';
 import { Injectable } from '@angular/core';
 import { YoutubeDataApi, DataApiProviders } from './youtube-data-api';
 import { exhaustMap } from 'rxjs/operators';
 import { IQueryParams } from '../store/player-search';
+import { env } from 'process';
+import { environment } from '@env/environment';
 
 export const SearchTypes = {
   VIDEO: 'video',
@@ -35,6 +38,7 @@ export class YoutubeSearch {
    */
   search(query: string, { preset }: any | IQueryParams = {}) {
     if (query || '' === query) {
+      //itt hívódik meg a list
       // TODO: assign defaults here as migration
       // REMOVE next version
       this._apiOptions.q = `${query} ${preset}`.trim();
@@ -51,16 +55,26 @@ export class YoutubeSearch {
   searchFor(type: string, query: string, params?: any | IQueryParams) {
     switch (type) {
       case SearchTypes.VIDEO: {
-        const {
-          videoType = 'any',
-          videoDuration = 'any',
-          videoDefinition = 'any'
-        } = params;
+        // const {
+        //   videoType = 'any',
+        //   videoDuration = 'any',
+        //   videoDefinition = 'any'
+        // } = params;  --bizarr szintax
+
+        const videoType = params.videoType ?? "any";
+        const videoDuration = params.videoDuration ?? "any";
+        const videoDefinition = params.videoDefinition ?? "any";
+        const maxApiResult = params.maxApiResult ?? environment.youtube.TOTAL_API_RESULTS;
+
+
         this._apiOptions = {
           ...this._apiOptions,
           videoType,
           videoDuration,
-          videoDefinition
+          videoDefinition,
+          maxResults: maxApiResult
+
+          //ide kellhet bearakni a total api results maxot
         };
         return this.searchVideo(query, params);
       }

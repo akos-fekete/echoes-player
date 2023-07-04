@@ -6,6 +6,7 @@ export interface IQueryParams {
   videoType?: videoTypes;
   videoDuration?: videoDurations;
   videoDefinition?: videoDefinition;
+  maxApiResult?: number;
 }
 export interface IPlayerSearch {
   query: string;

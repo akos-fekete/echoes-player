@@ -56,7 +56,7 @@ export class AppSearchComponent implements OnInit {
 
   ngOnInit() { }
 
-  search(query: string) {
+  search(query: string) { //a search itt hívódik meg
     if (!query.hasOwnProperty('isTrusted')) {
       this.store.dispatch(this.playerSearchActions.searchNewQuery(query));
     }

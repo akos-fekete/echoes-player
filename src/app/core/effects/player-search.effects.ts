@@ -1,5 +1,6 @@
+import { ActionTypes } from './../store/app-player/app-player.actions';
 import { YoutubeVideosInfo } from '@core/services';
-import { Store } from '@ngrx/store';
+import { Store, Action } from '@ngrx/store';
 import { EchoesState } from '@store/reducers';
 import { of } from 'rxjs';
 
@@ -15,7 +16,7 @@ import { Injectable } from '@angular/core';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import * as fromPlayerSearch from '@store/player-search';
 import { toPayload } from '@utils/data.utils';
-
+import { SetMaxApiResults } from '@store/player-search';
 import { YoutubeSearch } from '@core/services/youtube.search';
 import {
   ROUTER_NAVIGATION,
@@ -35,9 +36,11 @@ export class PlayerSearchEffects {
     private youtubeVideosInfo: YoutubeVideosInfo
   ) { }
 
-  @Effect()
+  @Effect() //a search action itt történik //itt kell a második action, 
+  //ami az api call számok változtatása után is ellövi a keresést
   searchQuery$ = this.actions$.pipe(
-    ofType(fromPlayerSearch.PlayerSearchActions.SEARCH_NEW_QUERY),
+    ofType(fromPlayerSearch.PlayerSearchActions.SEARCH_NEW_QUERY,
+      fromPlayerSearch.PlayerSearchActions.SET_MAX_API_RESULTS),
     map(toPayload),
     withLatestFrom(this.store),
     map((latest: any[]) => latest[1]),
@@ -62,6 +65,7 @@ export class PlayerSearchEffects {
   resetVideos$ = this.actions$.pipe(
     ofType(
       fromPlayerSearch.PlayerSearchActions.SEARCH_NEW_QUERY,
+      fromPlayerSearch.PlayerSearchActions.SET_MAX_API_RESULTS,
       fromPlayerSearch.PlayerSearchActions.PLAYLISTS_SEARCH_START.action
     ),
     map(() => this.playerSearchActions.resetResults())

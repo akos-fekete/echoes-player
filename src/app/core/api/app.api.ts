@@ -7,9 +7,11 @@ import * as AppCore from '@store/app-core';
 import * as RouterActions from '@store/router-store';
 import * as UserActions from '@store/user-profile';
 import * as fromPlayerSearch from '@store/player-search';
+import { SetMaxApiResults } from '@store/player-search';
 
 @Injectable()
 export class AppApi {
+
   themes$ = this.store.select(AppCore.getAppThemes);
   appVersion$ = this.store.select(AppCore.getAppVersion);
   user$ = this.store.select(UserActions.getUser);
@@ -77,5 +79,8 @@ export class AppApi {
     this.store.dispatch(this.playerSearchActions.searchMoreForQuery());
   }
 
+  setApiSearchMax(maxApiResults: number) {
+    this.store.dispatch(new SetMaxApiResults(maxApiResults));
+  }
 
 }

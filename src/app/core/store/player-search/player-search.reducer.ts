@@ -87,6 +87,12 @@ export function search(
       };
       return { ...state, pageToken };
 
+    case ActionTypes.SET_MAX_API_RESULTS: {
+      const maxApiResult = payload;
+      const queryParamsNew = { ...state.queryParamsNew, maxApiResult };
+      return { ...state, queryParamsNew };
+    }
+
     case PlayerSearchActions.SEARCH_STARTED:
       return { ...state, isSearching: true };
 
